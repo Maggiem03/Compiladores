@@ -1,0 +1,105 @@
+package com.myself.miParser;
+
+import java.util.Stack;
+
+class Pila {
+    private Stack<Symbol> pila;
+
+    public Pila() {
+        this.pila = new Stack<>();
+    }
+
+    public void push(Symbol symbol) {
+        pila.push(symbol);
+    }
+
+    public Symbol pop() {
+        return pila.pop();
+    }
+
+    public Symbol peek() {
+        return pila.peek();
+    }
+
+    public boolean isEmpty() {
+        return pila.isEmpty();
+    }
+}
+
+public class parserBottomUp {
+    private Pila pila;
+    private String in;
+
+    public parserBottomUp(String entrada) {
+        this.pila = new Pila();
+        this.in = entrada;
+    }
+
+    public void analizer() {
+        // Inicializar pila con símbolos
+        pila.push(new Symbol("enunciado", null));
+
+        // Procesar cada símbolo de la entrada
+        for (int i = 0; i < in.length(); i++) {
+            String simboloEntrada = Character.toString(in.charAt(i));
+
+            // Buscar producción en la tabla de análisis sintáctico
+            Symbol cimaPila = pila.peek();
+            String produccion = buscarProduccion(cimaPila.getType(), simboloEntrada);
+
+            if (produccion != null) {
+                // Eliminar no terminal de la pila
+                pila.pop();
+
+                // Agregar símbolos de la producción a la pila en orden inverso
+                for (int j = produccion.length() - 1; j >= 0; j--) {
+                    pila.push(new Symbol(Character.toString(produccion.charAt(j)), null));
+                }
+            } else if (cimaPila.getType().equals("nombre") || cimaPila.getType().equals("adjetivo") || cimaPila.getType().equals("verbo") || cimaPila.getType().equals("objetoDirecto") || cimaPila.getType().equals("objetoIndirecto") || cimaPila.getType().equals("preposición")) {
+                // Reducir: eliminar no terminal y reemplazar por terminal
+                pila.pop();
+                pila.push(new Symbol(cimaPila.getType(), simboloEntrada));
+            } else {
+                // Error sintáctico
+                System.err.println("Error sintáctico: " + simboloEntrada + " no esperado en " + cimaPila.getType());
+                break;
+            }
+        }
+
+        // Verificar si la pila solo contiene el símbolo inicial al final
+        if (pila.size() == 1 && pila.peek().getType().equals("enunciado")) {
+            System.out.println("Análisis exitoso: Partes del enunciado identificadas");
+        } else {
+            System.err.println("Error sintáctico: pila no vacía al final");
+        }
+    }
+
+    private String buscarProduccion(String noTerminal, String simboloEntrada) {
+        // Implementar la lógica para buscar la producción en la tabla de análisis sintáctico
+        // (en este caso, una tabla estática predefinida)
+        switch (noTerminal) {
+            case "enunciado":
+                return "sujeto predicado";
+            case "sujeto":
+                if (Character.isLetter(simboloEntrada.charAt(0))) {
+                    return "nombre";
+                } else {
+                    return null;
+                }
+            case "nombre":
+                if (Character.isLetter(simboloEntrada.charAt(0))) {
+                    return simboloEntrada;
+                } else {
+                    return null;
+                }
+            case "adjetivo":
+                if (Character.isLetter(simboloEntrada.charAt(0))) {
+                    return simboloEntrada;
+                } else {
+                    return null;
+                }
+            default:
+                return null;
+        }
+    }
+}
