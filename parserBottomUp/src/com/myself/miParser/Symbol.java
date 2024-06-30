@@ -1,5 +1,4 @@
 package com.myself.miParser;
-
 public class Symbol {
     private String type;
     private String value;
