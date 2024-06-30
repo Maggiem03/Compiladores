@@ -3,16 +3,17 @@ package com.myself.miParser;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String [] args){
-        //ingreso de enunciado
+    public static void main(String[] args) {
+        // Ingreso de enunciado
         String inputSentence = getInputSentence();
-        //iniciarlizar parser
+        // Inicializar parser
         parserBottomUp parser = new parserBottomUp(inputSentence);
-        //analizar con el parser
+        // Analizar con el parser
         parser.analizer();
     }
-    private static String getInputSentence(){
-        //lectura del enunciado
+
+    private static String getInputSentence() {
+        // Lectura del enunciado
         Scanner scanner = new Scanner(System.in);
         System.out.print("Ingrese el enunciado para identificar sus partes: ");
         return scanner.nextLine();
