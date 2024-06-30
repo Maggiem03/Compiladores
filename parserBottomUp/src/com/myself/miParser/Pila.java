@@ -2,7 +2,7 @@ package com.myself.miParser;
 
 import java.util.Stack;
 
-public class Pila{
+public class Pila {
     private Stack<Symbol> pila;
 
     public Pila() {
