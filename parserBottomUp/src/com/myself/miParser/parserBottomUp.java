@@ -24,15 +24,21 @@ class Pila {
     public boolean isEmpty() {
         return pila.isEmpty();
     }
+
+    public int size() {
+        return pila.size();
+    }
 }
 
 public class parserBottomUp {
     private Pila pila;
     private String in;
 
+    private validWords validWords;
     public parserBottomUp(String entrada) {
         this.pila = new Pila();
         this.in = entrada;
+        this.validWords = new validWords();
     }
 
     public void analizer() {
@@ -58,7 +64,9 @@ public class parserBottomUp {
             } else if (cimaPila.getType().equals("nombre") || cimaPila.getType().equals("adjetivo") || cimaPila.getType().equals("verbo") || cimaPila.getType().equals("objetoDirecto") || cimaPila.getType().equals("objetoIndirecto") || cimaPila.getType().equals("preposición")) {
                 // Reducir: eliminar no terminal y reemplazar por terminal
                 pila.pop();
-                pila.push(new Symbol(cimaPila.getType(), simboloEntrada));
+                Symbol simbolo = new Symbol(cimaPila.getType(), simboloEntrada);
+                System.out.println("Parte del enunciado: " + simbolo.getValue() + " - Tipo: " + simbolo.getType());
+                pila.push(simbolo);
             } else {
                 // Error sintáctico
                 System.err.println("Error sintáctico: " + simboloEntrada + " no esperado en " + cimaPila.getType());
@@ -81,19 +89,19 @@ public class parserBottomUp {
             case "enunciado":
                 return "sujeto predicado";
             case "sujeto":
-                if (Character.isLetter(simboloEntrada.charAt(0))) {
+                if (validWords.getValidSujeto().contains(simboloEntrada)) {
                     return "nombre";
                 } else {
                     return null;
                 }
             case "nombre":
-                if (Character.isLetter(simboloEntrada.charAt(0))) {
+                if (validWords.getValidNombres().contains(simboloEntrada)) {
                     return simboloEntrada;
                 } else {
                     return null;
                 }
             case "adjetivo":
-                if (Character.isLetter(simboloEntrada.charAt(0))) {
+                if (validWords.getValidAdjetivos().contains(simboloEntrada)) {
                     return simboloEntrada;
                 } else {
                     return null;
