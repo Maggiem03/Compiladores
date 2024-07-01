@@ -28,4 +28,16 @@ public class Pila {
     public int size() {
         return pila.size();
     }
+
+    // Método para vaciar la pila
+    public void clear() {
+        while (!pila.isEmpty()) {
+            pila.pop();
+        }
+    }
+
+    // Verificar si la pila está vacía al final
+    public boolean isCleared() {
+        return pila.isEmpty();
+    }
 }
