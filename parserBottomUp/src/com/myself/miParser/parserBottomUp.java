@@ -29,7 +29,7 @@ public class parserBottomUp {
                 for (int j = produccion.length() - 1; j >= 0; j--) {
                     pila.push(new Symbol(Character.toString(produccion.charAt(j)), null));
                 }
-            } else if (cimaPila.getType().equals("nombre") || cimaPila.getType().equals("adjetivo") || cimaPila.getType().equals("verbo") || cimaPila.getType().equals("objetoDirecto") || cimaPila.getType().equals("objetoIndirecto") || cimaPila.getType().equals("preposición")) {
+            } else if (cimaPila.getType().equals("nombre") || cimaPila.getType().equals("adjetivo") || cimaPila.getType().equals("verbo") || cimaPila.getType().equals("objetoDirecto") || cimaPila.getType().equals("objetoIndirecto") || cimaPila.getType().equals("preposición") || cimaPila.getType().equals("pronombre")) {
                 // Reducir: eliminar no terminal y reemplazar por terminal
                 pila.pop();
                 Symbol simbolo = new Symbol(cimaPila.getType(), word);
@@ -57,7 +57,15 @@ public class parserBottomUp {
             case "enunciado":
                 return "sujeto predicado";
             case "sujeto":
-                if (validWords.getValidSujeto().contains(simboloEntrada)) {
+                if (validWords.getValidPronombres().contains(simboloEntrada)) {
+                    return "pronombre";
+                } else if (validWords.getValidNombres().contains(simboloEntrada)) {
+                    return "nombre";
+                } else {
+                    return null;
+                }
+            case "pronombre":
+                if (validWords.getValidNombres().contains(simboloEntrada)) {
                     return "nombre";
                 } else {
                     return null;
