@@ -7,7 +7,7 @@ import java.util.Set;
 public class ValidWords {
     private Set<String> validNombres;
     private Set<String> validAdjetivos;
-    private Set<String> validSujeto;
+    private Set<String> validPronombres;
 
     public ValidWords() {
         initializeValidWords();
@@ -16,7 +16,7 @@ public class ValidWords {
     private void initializeValidWords() {
         validNombres = new HashSet<>(Arrays.asList("Juan", "Maria", "perro", "gato"));
         validAdjetivos = new HashSet<>(Arrays.asList("grande", "pequeño", "rojo", "azul"));
-        validSujeto = new HashSet<>(Arrays.asList("yo", "tu", "el", "ella", "nosotros"));
+        validPronombres = new HashSet<>(Arrays.asList("yo", "tu", "el", "ella", "nosotros"));
     }
 
     public Set<String> getValidNombres() {
@@ -27,7 +27,7 @@ public class ValidWords {
         return validAdjetivos;
     }
 
-    public Set<String> getValidSujeto() {
-        return validSujeto;
+    public Set<String> getValidPronombres() {
+        return validPronombres;
     }
 }
